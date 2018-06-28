@@ -20,6 +20,13 @@ public class MessageService {
 		return new ArrayList<Message>(messages.values());
 	}
 	
+	public Message getMessage(long id) {
+		if(messages.containsKey(id)) {
+			return messages.get(id);
+		}
+		return null;
+	}
+	
 	public Message addMessage(Message message) {
 		message.setId(messages.size() + 1);
 		messages.put(message.getId(), message);
