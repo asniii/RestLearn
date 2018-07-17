@@ -2,6 +2,7 @@ package com.aditya.restlearn.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.aditya.restlearn.model.Message;
+import com.aditya.restlearn.resources.beans.MessageFilterBean;
 import com.aditya.restlearn.service.MessageService;
 
 @Path("/messages")
@@ -32,6 +34,19 @@ public class MessageResource {
 		}
 		if(start>=0 && size >= 0) {
 			return messageService.getAllMessagesPaginated(start, size);
+		}
+		return messageService.getAllMessage();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("bean")
+	public List<Message> getMessagesByBean(@BeanParam MessageFilterBean messageFilterBean){
+		if(messageFilterBean.getYear() > 0) {
+			return messageService.getAllMesssagesForYear(messageFilterBean.getYear());
+		}
+		if(messageFilterBean.getStart() >= 0 && messageFilterBean.getSize()>0) {
+			return messageService.getAllMessagesPaginated(messageFilterBean.getStart(), messageFilterBean.getSize());
 		}
 		return messageService.getAllMessage();
 	}
