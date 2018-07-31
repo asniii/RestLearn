@@ -1,22 +1,15 @@
 package com.aditya.restlearn.resources;
 
-import java.util.List;
-
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import com.aditya.restlearn.model.Message;
 import com.aditya.restlearn.resources.beans.MessageFilterBean;
 import com.aditya.restlearn.service.MessageService;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
 @Path("/messages")
 public class MessageResource {
@@ -61,8 +54,12 @@ public class MessageResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message addMessage(Message message) {
-		return messageService.addMessage(message);
+	public Response addMessage(Message message, @Context UriInfo uriInfo){
+		Message newMessage = messageService.addMessage(message);
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(newMessage.getId())).build())
+				.entity(newMessage)
+				.build();
+		//return messageService.addMessage(message);
 	}
 	
 	@PUT
