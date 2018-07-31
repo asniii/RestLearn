@@ -80,5 +80,12 @@ public class MessageResource {
 	public void deleteMesssage(@PathParam("messageId") long messageId) {
 		 messageService.removeMessage(messageId); 
 	}
+	
+	
+	@Path("/{messageId}/comments")
+	public CommentResource getCommentResource() {
+		return new CommentResource();
+	}
+	
 
 }
