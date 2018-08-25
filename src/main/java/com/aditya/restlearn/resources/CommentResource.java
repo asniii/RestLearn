@@ -19,7 +19,8 @@ import com.aditya.restlearn.service.CommentService;
 public class CommentResource {
 	
 	private CommentService  commentService = new CommentService();
-	
+
+	//localhost:8080/restlearn/webapi/messages/5/comments
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Comment> getAllComments(@PathParam("messageId") long messageId){ 

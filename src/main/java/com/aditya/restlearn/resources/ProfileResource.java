@@ -20,27 +20,34 @@ import com.aditya.restlearn.service.ProfileService;
 public class ProfileResource {
 	
 	private ProfileService profileService = new ProfileService();
-	
+
+	//localhost:8080/restlearn/webapi/profiles
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Profile> getProfiles(){
 		return profileService.getAllProfiles();
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/profiles
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Profile addProfile(Profile profile) {
 		return profileService.addProfile(profile);
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/profiles/{profileName}
 	@GET
 	@Path("/{profileName}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Profile getProfile(@PathParam("profileName") String profileName) {
 		return profileService.getProfile(profileName);
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/profiles/{profileName}
 	@PUT
 	@Path("/{profileName}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -49,7 +56,9 @@ public class ProfileResource {
 		profile.setProfileName(profileName);
 		return profileService.updateProfile(profile);
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/profiles/{profileName}
 	@DELETE
 	@Path("/{profileName}")
 	public void deleteProfile(@PathParam("profileName")String profileName) {

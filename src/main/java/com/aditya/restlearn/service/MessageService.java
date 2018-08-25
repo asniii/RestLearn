@@ -1,12 +1,13 @@
 package com.aditya.restlearn.service;
 
+import com.aditya.restlearn.database.DatabaseClass;
+import com.aditya.restlearn.exception.DataNotFoundException;
+import com.aditya.restlearn.model.Message;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-
-import com.aditya.restlearn.database.DatabaseClass;
-import com.aditya.restlearn.model.Message;
 
 public class MessageService {
 	
@@ -15,13 +16,13 @@ public class MessageService {
 	public MessageService() {
 		messages.put(1L, new Message(1,"Hello world","koushik"));
 		messages.put(2L, new Message(2, "Hello jersey","aditya"));
-		messages.put(3L, new Message(2, "Hello jersey1","aditya1"));
-		messages.put(4L, new Message(2, "Hello jersey2","aditya2"));
-		messages.put(5L, new Message(2, "Hello jersey3","aditya3"));
-		messages.put(6L, new Message(2, "Hello jersey4","aditya4"));
-		messages.put(7L, new Message(2, "Hello jersey5","aditya5"));
-		messages.put(8L, new Message(2, "Hello jersey6","aditya6"));
-		messages.put(9L, new Message(2, "Hello jersey7","aditya7"));
+		messages.put(3L, new Message(3, "Hello jersey1","aditya1"));
+		messages.put(4L, new Message(4, "Hello jersey2","aditya2"));
+		messages.put(5L, new Message(5, "Hello jersey3","aditya3"));
+		messages.put(6L, new Message(6, "Hello jersey4","aditya4"));
+		messages.put(7L, new Message(7, "Hello jersey5","aditya5"));
+		messages.put(8L, new Message(8, "Hello jersey6","aditya6"));
+		messages.put(9L, new Message(9, "Hello jersey7","aditya7"));
 
 	}
 	
@@ -53,7 +54,7 @@ public class MessageService {
 		if(messages.containsKey(id)) {
 			return messages.get(id);
 		}
-		return null;
+		throw new DataNotFoundException("Message with id " + id + "not found");
 	}
 	
 	public Message addMessage(Message message) {

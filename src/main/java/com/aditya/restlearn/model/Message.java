@@ -25,7 +25,7 @@ public class Message {
 		this.message = message;
 		this.created = new Date();
 		this.author = author;
-		comments.put(1L, new Comment(1L,"message","author"));
+		comments.put(1L, new Comment(1L,"comment","author"));
 	}
 	
 	public long getId() {
@@ -53,7 +53,7 @@ public class Message {
 		this.author = author;
 	}
 
-
+	//hide and entity from json/xml message
 	@XmlTransient
 	public Map<Long, Comment> getComments() {
 		return comments;

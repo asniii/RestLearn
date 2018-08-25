@@ -15,7 +15,10 @@ import java.util.List;
 public class MessageResource {
 	
 	MessageService messageService = new MessageService();
-	
+
+
+	//localhost:8080/restlearn/webapi/messages?year=2018
+	//localhost:8080/restlearn/webapi/messages?start=0&size=1
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Message> getMessages(@QueryParam("year") int year,
@@ -30,7 +33,10 @@ public class MessageResource {
 		}
 		return messageService.getAllMessage();
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/messages/bean?start=0&size=1
+	//localhost:8080/restlearn/webapi/messages/bean?year=2018
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("bean")
@@ -43,14 +49,18 @@ public class MessageResource {
 		}
 		return messageService.getAllMessage();
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/messages/5
 	@GET
 	@Path("/{messageId}")
 	@Produces(MediaType.APPLICATION_JSON) 
 	public Message getMessage(@PathParam("messageId") long messageId) {
 		return messageService.getMessage(messageId);
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/messages
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -61,7 +71,8 @@ public class MessageResource {
 				.build();
 		//return messageService.addMessage(message);
 	}
-	
+
+	//localhost:8080/restlearn/webapi/messages/11
 	@PUT
 	@Path("/{messageId}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -70,7 +81,9 @@ public class MessageResource {
 		message.setId(messageId);
 		return messageService.updateMessage(message);
 	}
-	
+
+
+	//localhost:8080/restlearn/webapi/messages/11
 	@DELETE
 	@Path("/{messageId}")
 	@Produces(MediaType.APPLICATION_JSON)
