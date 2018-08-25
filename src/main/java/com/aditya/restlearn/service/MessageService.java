@@ -54,7 +54,7 @@ public class MessageService {
 		if(messages.containsKey(id)) {
 			return messages.get(id);
 		}
-		throw new DataNotFoundException("Message with id " + id + "not found");
+		throw new DataNotFoundException("Message with id " + id + " not found");
 	}
 	
 	public Message addMessage(Message message) {

@@ -1,12 +1,15 @@
 package com.aditya.restlearn.service;
 
+import com.aditya.restlearn.database.DatabaseClass;
+import com.aditya.restlearn.model.Comment;
+import com.aditya.restlearn.model.ErrorMessage;
+import com.aditya.restlearn.model.Message;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.aditya.restlearn.database.DatabaseClass;
-import com.aditya.restlearn.model.Comment;
-import com.aditya.restlearn.model.Message;
 
 public class CommentService {
 	
@@ -18,8 +21,20 @@ public class CommentService {
 	}
 	
 	public Comment getComment(long messageId, long commentId) {
+		ErrorMessage errorMessage = new ErrorMessage("not found", 404,"http://google.com");
+		Response response = Response.status(Response.Status.NOT_FOUND)
+				.entity(errorMessage)
+				.build();
+		Message message = messages.get(messageId);
+		if(message == null){
+			throw new WebApplicationException(response);
+		}
 		Map<Long,Comment> comments = messages.get(messageId).getComments();
-		return comments.get(commentId);
+		Comment comment = comments.get(commentId);
+		if(comment == null){
+			throw new WebApplicationException(response);
+		}
+		return comment;
 	}
 	
 	public Comment addComment(long messageId, Comment comment) {
