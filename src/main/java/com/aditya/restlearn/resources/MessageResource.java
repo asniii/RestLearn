@@ -1,6 +1,7 @@
 package com.aditya.restlearn.resources;
 
 import com.aditya.restlearn.model.Message;
+import com.aditya.restlearn.model.Profile;
 import com.aditya.restlearn.resources.beans.MessageFilterBean;
 import com.aditya.restlearn.service.MessageService;
 
@@ -28,7 +29,7 @@ public class MessageResource {
 		if(year > 0) {
 			return messageService.getAllMesssagesForYear(year);
 		}
-		if(start>=0 && size >= 0) {
+		if(start>=0 && size > 0) {
 			return messageService.getAllMessagesPaginated(start, size);
 		}
 		return messageService.getAllMessage();
@@ -55,8 +56,43 @@ public class MessageResource {
 	@GET
 	@Path("/{messageId}")
 	@Produces(MediaType.APPLICATION_JSON) 
-	public Message getMessage(@PathParam("messageId") long messageId) {
-		return messageService.getMessage(messageId);
+	public Message getMessage(@PathParam("messageId") long messageId, @Context UriInfo uriInfo) {
+		Message message = messageService.getMessage(messageId);
+		String uri = getUriForSelf(uriInfo, message);
+		message.addLink(uri,"self");
+
+		String uriForProfile = getUriForProfile(uriInfo,message);
+		message.addLink(uriForProfile,"profile");
+
+		String uriForComments = getUriForComments(uriInfo,message);
+		message.addLink(uriForComments,"comments");
+		return message;
+	}
+
+	private String getUriForSelf(@Context UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(Long.toString(message.getId()))
+				.build()
+				.toString();
+	}
+
+	private String getUriForProfile(@Context UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder()
+				.path(ProfileResource.class)
+				.path(message.getAuthor())
+				.build()
+				.toString();
+	}
+
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(MessageResource.class,"getCommentResource")
+				.path(CommentResource.class)
+				.resolveTemplate("messageId", message.getId())
+				.build()
+				.toString();
 	}
 
 
