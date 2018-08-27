@@ -17,22 +17,30 @@ import com.aditya.restlearn.service.ProfileService;
 
 
 @Path("/profiles")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class ProfileResource {
 	
 	private ProfileService profileService = new ProfileService();
 
 	//localhost:8080/restlearn/webapi/profiles
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Profile> getProfiles(){
+		return profileService.getAllProfiles();
+	}
+
+	//localhost:8080/restlearn/webapi/profiles
+	// Call this with header "Accept" set to "text/xml".
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Profile> getXmlProfiles(){
+		System.out.println("This is the xml method.");
 		return profileService.getAllProfiles();
 	}
 
 
 	//localhost:8080/restlearn/webapi/profiles
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Profile addProfile(Profile profile) {
 		return profileService.addProfile(profile);
 	}
@@ -41,7 +49,6 @@ public class ProfileResource {
 	//localhost:8080/restlearn/webapi/profiles/{profileName}
 	@GET
 	@Path("/{profileName}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Profile getProfile(@PathParam("profileName") String profileName) {
 		return profileService.getProfile(profileName);
 	}
@@ -50,8 +57,6 @@ public class ProfileResource {
 	//localhost:8080/restlearn/webapi/profiles/{profileName}
 	@PUT
 	@Path("/{profileName}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Profile updateProfile(@PathParam("profileName") String profileName, Profile profile) {
 		profile.setProfileName(profileName);
 		return profileService.updateProfile(profile);
